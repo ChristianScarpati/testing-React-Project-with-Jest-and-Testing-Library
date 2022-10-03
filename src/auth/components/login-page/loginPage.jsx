@@ -8,11 +8,12 @@ export const LoginPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setEmailValidationMessage("the email is required")
-        setPasswordValidationMessage("the password is required")
+        const { email, password } = e.target.elements //deben coincidir con su id
+        if (!email.value) setEmailValidationMessage("the email is required")
+        if (!password.value) setPasswordValidationMessage("the password is required")
+        
     }
-
-
+ 
     return (
         <>
             <h1>login</h1>
