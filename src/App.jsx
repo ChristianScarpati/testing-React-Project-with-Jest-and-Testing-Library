@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import LoginPage from "./auth/components/login-page/loginPage"
 import './App.css'
 
 function App() {
@@ -7,8 +7,8 @@ function App() {
 
   return (
     <div className="App">
-      
-      <h1>hi</h1>
+    <h2>asd</h2>
+      <LoginPage />
     </div>
   )
 }
