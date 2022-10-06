@@ -38,7 +38,18 @@ describe("when the user fills the fields and click the submit button 2", () => {
 
         fireEvent.click(screen.getByRole('button', { name: /send/i }))
         expect(screen.queryByText(/the email is required/i)).not.toBeInTheDocument() //corroboramos que no se encuentre en el docuemnto
+    })
+})
+
+describe("when the user fills and blur the email input with invalid email", () => {
+    it("must display a validation message the email is invalid. Example: John.doe@mail.com", () => {
+        const emailInput = screen.getByLabelText(/email/i)
+        //change and blur email input
+        fireEvent.change(emailInput, { target: { value: 'invalid.email' } })
+        fireEvent.blur(emailInput) //blur xq es el elem que pierdo el foco del cursor (saco afuera del input)
+        //expect
+        expect(screen.getByText(/the email is invalid. Example: John.doe@mail.com/i))
 
     })
-
 })
+
