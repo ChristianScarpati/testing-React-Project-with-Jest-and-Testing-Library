@@ -5,6 +5,11 @@ import { LoginPage } from "./loginPage"
 
 beforeEach(() => render(<LoginPage />))
 
+const passwordValidationMessage = "The password input should contain at least: 8 characters, one upper case letter, one number and one special character"
+
+const getPasswordInput = () => screen.getByLabelText(/password/i)
+
+
 describe("When login page is mounted", () => {
 
     it("must display the login word", () => {
@@ -52,4 +57,24 @@ describe("when the user fills and blur the email input with invalid email", () =
 
     })
 })
+
+describe("when the user fills and blur the password input with a invalid value and then change with valid value and blur again", () => {
+    it("must not display the validation message", () => {
+
+        const passwordWithoutSpecialChar = 'asdasdA1sd'
+        const validPassword = 'aAfweffewaa2#'
+
+        fireEvent.change(getPasswordInput(), { target: { value: passwordWithoutSpecialChar } })
+        fireEvent.blur(getPasswordInput())
+
+        expect(screen.getByText(passwordValidationMessage)).toBeInTheDocument()
+
+        fireEvent.change(getPasswordInput(), { target: {value: validPassword}})
+        fireEvent.blur(getPasswordInput())
+
+        expect(screen.queryByText(passwordValidationMessage)).not.toBeInTheDocument()
+    })
+
+})
+
 

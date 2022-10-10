@@ -3,13 +3,18 @@ import { Button, TextField } from "@material-ui/core"
 import { Stack } from '@mui/material'
 
 
-function validateEmail() {
+const passwordValidationsMsg =
+`The password input should contain at least: 8 characters, one upper case letter, one number and one special character`
+
+function validateEmail(email) {
     const regex = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
-
     return regex.test(email)
-
 }
 
+const validatePassword = password => {
+    const passwordRulesRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
+    return passwordRulesRegex.test(password)
+}
 
 export const LoginPage = () => {
 
@@ -32,7 +37,19 @@ export const LoginPage = () => {
     }
 
     const handleBlurEmail = () => {
-        if (!validateEmail(formValues.email)) setEmailValidationMessage("the email is invalid. Example: John.doe@mail.com")
+        if (!validateEmail(formValues.email)) {
+            setEmailValidationMessage("the email is invalid. Example: John.doe@mail.com")
+            return
+        }
+        setEmailValidationMessage('')
+    }
+
+    const handleBlurPassword = () => {
+        if (!validatePassword(formValues.password)) {
+            setPasswordValidationMessage(passwordValidationsMsg)
+            return
+        }
+        setPasswordValidationMessage('')
     }
 
     return (
@@ -45,6 +62,7 @@ export const LoginPage = () => {
                     <TextField
                         label="email"
                         id="email"
+                        name="email"
                         helperText={emailValidationMessage}
                         onChange={handleChange}
                         value={formValues.email}
@@ -55,10 +73,12 @@ export const LoginPage = () => {
                     <TextField
                         label="password"
                         id="password"
-                        type="passwword"
+                        name="password"
+                        type="password"
                         helperText={passwordValidationMessage}
                         onChange={handleChange}
                         value={formValues.password}
+                        onBlur={handleBlurPassword}
                     />
                 </Stack>
                 <Button type="submit">send</Button>
